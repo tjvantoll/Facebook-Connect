@@ -13,6 +13,8 @@
     <iOSStatusBarStyle>Default</iOSStatusBarStyle>
     <AndroidHardwareAcceleration>false</AndroidHardwareAcceleration>
     <BundleVersion>1.0</BundleVersion>
+    <iOSDisplayName>AppBuilder Facebook Connect</iOSDisplayName>
+    <iOSDeviceFamily>1</iOSDeviceFamily>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Telerik\ICE\Tools\Mobile\MobileTools.targets" />
 </Project>
