@@ -15,12 +15,15 @@
 </head>
 <body>
 	<div id="home" data-role="view" data-title="Facebook Testing">
-        <button id="getLoginStatus" data-role="button">Get Login Status</button>
+        <button id="get-login-status" data-role="button">Get Login Status</button>
         <button id="login" data-role="button">Login</button>
         <button id="logout" data-role="button">Logout</button>
-        <button id="getFriends" data-role="button">Get Friends</button>
+        <button id="get-friends" data-role="button">Get Friends</button>
 
-        <div id="data"></div>
+        <ul id="friends-list" data-role="listview" data-template="friends-list-template"></ul>
+        <script id="friends-list-template" type="text/x-kendo-template">
+			<img src="#: picture.data.url #">#: name #
+        </script>
     </div>
 
     <div data-role="layout" data-id="layout">

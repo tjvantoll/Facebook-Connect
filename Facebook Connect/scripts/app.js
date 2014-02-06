@@ -34,7 +34,7 @@ function setupFacebook() {
 		}, { scope: "email" });
     });
     
-    $( "#getLoginStatus" ).on( "click", function() {
+    $( "#get-login-status" ).on( "click", function() {
 		FB.getLoginStatus(function( response ) {
 			if ( response.status === "connected" ) {
 				alert( "logged in" );
@@ -50,7 +50,7 @@ function setupFacebook() {
         });
     });
     
-    $( "#getFriends" ).on( "click", function() {
+    $( "#get-friends" ).on( "click", function() {
 		FB.api( "/me/friends",
         	{ fields: "id, name, picture" },
             function( response ) {
@@ -58,13 +58,10 @@ function setupFacebook() {
 	                alert( JSON.stringify( response.error ) );
                     return;
                 }
-                var data = $( "#data" );
-                response.data.forEach( function( item ) {
-                    data.append( "<div>" +
-						"<img src='" + item.picture.data.url + "'>" +
-						item.name +
-						"</div>" );
-                });
+                
+                var listView = $( "#friends-list" ).data( "kendoMobileListView" ),
+                    dataSource = new kendo.data.DataSource({ data: response.data });
+                listView.setDataSource( dataSource );
 			});
     });
 };
