@@ -19,8 +19,7 @@ window.addEventListener( "error", function ( e ) {
 function setupFacebook() {
 	FB.init({
         appId: "204075246457176",
-        nativeInterface: CDV.FB,
-        useCachedDialogs: false
+        nativeInterface: CDV.FB
     });
     
     $( "#login" ).on( "click", function() {
@@ -51,6 +50,8 @@ function setupFacebook() {
     });
     
     $( "#get-friends" ).on( "click", function() {
+        var listView = $( "#friends-list" ).data( "kendoMobileListView" );
+        listView.showLoading();
 		FB.api( "/me/friends",
         	{ fields: "id, name, picture" },
             function( response ) {
@@ -58,10 +59,9 @@ function setupFacebook() {
 	                alert( JSON.stringify( response.error ) );
                     return;
                 }
-                
-                var listView = $( "#friends-list" ).data( "kendoMobileListView" ),
-                    dataSource = new kendo.data.DataSource({ data: response.data });
-                listView.setDataSource( dataSource );
+                listView.setDataSource(
+                	new kendo.data.DataSource({ data: response.data })
+                );
 			});
     });
 };
