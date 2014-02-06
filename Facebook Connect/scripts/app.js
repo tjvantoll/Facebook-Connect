@@ -17,20 +17,60 @@ window.addEventListener( "error", function ( e ) {
 
 
 function setupFacebook() {
-    FB.init({
+	FB.init({
         appId: "204075246457176",
-        status: true,
-        xfgml: true
+        nativeInterface: CDV.FB,
+        useCachedDialogs: false
     });
     
-    FB.getLoginStatus(function( response ) {
-        alert( JSON.stringify( response ) );
+    $( "#login" ).on( "click", function() {
+		FB.login(function(response) {
+            alert( JSON.stringify( response ) );
+			if ( response.session ) {
+				alert( "logged in" );
+			} else {
+				alert( "not logged in" );
+			}
+		}, { scope: "email" });
+    });
+    
+    $( "#getLoginStatus" ).on( "click", function() {
+		FB.getLoginStatus(function( response ) {
+			if ( response.status === "connected" ) {
+				alert( "logged in" );
+			} else {
+				alert( "not logged in" );
+			}
+		});
+    });
+    
+    $( "#logout" ).on( "click", function() {
+        FB.logout(function( response ) {
+	        alert( "logged out" );
+        });
+    });
+    
+    $( "#getFriends" ).on( "click", function() {
+		FB.api( "/me/friends",
+        	{ fields: "id, name, picture" },
+            function( response ) {
+				if ( response.error ) {
+	                alert( JSON.stringify( response.error ) );
+                    return;
+                }
+                var data = $( "#data" );
+                response.data.forEach( function( item ) {
+                    data.append( "<div>" +
+						"<img src='" + item.picture.data.url + "'>" +
+						item.name +
+						"</div>" );
+                });
+			});
     });
 };
 
 document.addEventListener( "deviceready", function () {
     navigator.splashscreen.hide();
-    $( document.body ).height( window.innerHeight );
     new kendo.mobile.Application( document.body, { layout: "layout" });
     setupFacebook();
-});
+});         
